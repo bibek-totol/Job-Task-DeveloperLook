@@ -10,11 +10,12 @@ export default function Home() {
 
   return (
     <>
-    
+    <div className="min-h-screen">
      <Navbar/>
      <Propertylist/>
      <TabsSection/>
      <Footer/>
+     </div>
      
     </>
   );

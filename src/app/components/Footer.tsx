@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#F7F7F7] border-t border-gray-200 text-gray-700 text-sm">
       <div className="max-w-7xl  px-12 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-        {/* Support */}
+        
         <div>
           <h3 className="font-semibold mb-3">Support</h3>
           <ul className="space-y-2">
@@ -18,7 +18,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Hosting */}
+      
         <div>
           <h3 className="font-semibold mb-3">Hosting</h3>
           <ul className="space-y-2">
@@ -35,7 +35,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Airbnb */}
+      
         <div>
           <h3 className="font-semibold mb-3">Airbnb</h3>
           <ul className="space-y-2">
@@ -49,10 +49,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      
       <div className="border-t border-gray-200 py-6">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          {/* Left side */}
+    
           <p className="text-xs text-gray-500">
             © 2025 Airbnb, Inc. · <a href="#" className="hover:underline">Terms</a> ·{" "}
             <a href="#" className="hover:underline">Sitemap</a> ·{" "}
@@ -60,7 +60,7 @@ export default function Footer() {
             <a href="#" className="hover:underline">Your Privacy Choices</a>
           </p>
 
-          {/* Right side */}
+          
           <div className="flex items-center gap-4 text-gray-600">
             <button className="flex items-center gap-1 hover:underline text-sm">
               🌍 English (US)

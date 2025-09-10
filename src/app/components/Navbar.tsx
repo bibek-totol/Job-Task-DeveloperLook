@@ -54,16 +54,39 @@ export default function Navbar() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: -100 }}
-          animate={{ opacity: 1, y: -45 }}
-          transition={{ duration: 0.4 }}
-          className={`flex items-center gap-x-4 text-xs sm:text-sm ${
-            scrolled ? "hidden" : "block"
-          }`}
-        >
-          <p className="cursor-pointer">Airbnb your home</p>
-          <p className="cursor-pointer">Help</p>
-        </motion.div>
+  initial={{ opacity: 0, y: -100 }}
+  animate={{ opacity: 1, y: -45 }}
+  transition={{ duration: 0.4 }}
+  className={`flex items-center gap-x-8 text-xs sm:text-sm ${
+    scrolled ? "hidden" : "flex"
+  }`}
+>
+
+  <div className="flex flex-col items-center cursor-pointer">
+    <span className="text-2xl">🏡</span>
+    <p className="mt-1 font-medium">Homes</p>
+    <span className="w-6 border-b-2 border-black mt-1"></span>
+  </div>
+
+
+  <div className="flex flex-col items-center cursor-pointer relative">
+    <span className="absolute -top-2 right-0 bg-[#334665] text-white text-[10px] px-1 py-0.5  rounded-bl-lg rounded-full">
+      NEW
+    </span>
+    <span className="text-2xl">🎈</span>
+    <p className="mt-1 font-medium">Experiences</p>
+  </div>
+
+  
+  <div className="flex flex-col items-center cursor-pointer relative">
+    <span className="absolute -top-2 left-8 bg-[#334665] text-white text-[10px] px-1 py-0.5 rounded-bl-lg  rounded-full">
+      NEW
+    </span>
+    <span className="text-2xl">🛎️</span>
+    <p className="mt-1 font-medium">Services</p>
+  </div>
+</motion.div>
+
 
         
         <motion.div
