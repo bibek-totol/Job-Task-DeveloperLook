@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import logo from "../../../public/assets/logo.jpg";
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState<boolean>(false);
@@ -12,6 +13,10 @@ export default function Navbar() {
         setScrolled(window.scrollY > 50); 
       };
       window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
       
     }, []);
 
@@ -33,7 +38,7 @@ export default function Navbar() {
         animate={{ scale: scrolled ? 0.9 : 1 }}
         transition={{ duration: 0.4 }}
       >
-        <img src="/airbnb-logo.png" alt="Logo" className="h-8 sm:h-10" />
+        <Image src={logo} alt="logo" width={120} height={120} />
       </motion.div>
 
       
@@ -54,7 +59,7 @@ export default function Navbar() {
     
     <motion.div
     initial={{ opacity: 0, y: -100 }}
-    animate={{ opacity: 1, y: -35 }}
+    animate={{ opacity: 1, y: -45 }}
     transition={{ duration: 0.4 }}
 
 
@@ -73,7 +78,7 @@ export default function Navbar() {
         width: scrolled ? "30%" : "70%",
         padding: scrolled ? "0.3rem" : "0.8rem",
         opacity: 1,
-        y: scrolled ? -45 : -25,
+        y: scrolled ? -60 : -15,
         
       }}
       transition={{ duration: 0.4 }}

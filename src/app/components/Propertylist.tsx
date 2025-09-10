@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import Image from "next/image";
 export default function Propertylist() {
     const properties = [
@@ -84,10 +83,8 @@ export default function Propertylist() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 md:px-8 mt-48">
     {properties.map((property) => (
-      <motion.div
+      <div
         key={property.id}
-        whileHover={{ scale: 1.08 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
         className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition"
       >
         
@@ -124,7 +121,7 @@ export default function Propertylist() {
             ⭐ {property.rating}
           </p>
         </div>
-      </motion.div>
+      </div>
     ))}
   </div>
   )
