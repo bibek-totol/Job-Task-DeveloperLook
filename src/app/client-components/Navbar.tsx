@@ -6,6 +6,9 @@ import Image from "next/image";
 import logo from "../../../public/assets/logo.jpg";
 import CalendarModal from "./CalendarModal";
 
+
+
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
@@ -23,7 +26,7 @@ export default function Navbar() {
       <motion.nav
         initial={false}
         animate={{
-          height: scrolled ? 80 : 160,
+          height: scrolled ? 80 : 200,
           boxShadow: scrolled
             ? "0 2px 10px rgba(0,0,0,0.1)"
             : "0 1px 3px rgba(0,0,0,0.05)",
@@ -31,6 +34,7 @@ export default function Navbar() {
         transition={{ duration: 0.4 }}
         className="fixed top-0 left-0 right-0 bg-white text-black z-50 flex flex-col items-center"
       >
+        
         
         <div className="w-full max-w-7xl flex justify-between items-center px-4 sm:px-6 py-2">
           <motion.div
@@ -70,7 +74,7 @@ export default function Navbar() {
 
 
   <div className="flex flex-col items-center cursor-pointer relative">
-    <span className="absolute -top-2 right-0 bg-[#334665] text-white text-[10px] px-1 py-0.5  rounded-bl-lg rounded-full">
+    <span className="absolute -top-2 -right-1 bg-[#334665] text-white text-[10px] px-2 py-0.5  rounded-bl-lg rounded-full">
       NEW
     </span>
     <span className="text-2xl">🎈</span>
@@ -79,10 +83,10 @@ export default function Navbar() {
 
   
   <div className="flex flex-col items-center cursor-pointer relative">
-    <span className="absolute -top-2 left-8 bg-[#334665] text-white text-[10px] px-1 py-0.5 rounded-bl-lg  rounded-full">
+    <span className="absolute -top-2 left-8 bg-[#334665] text-white text-[10px] px-2 py-0.5 rounded-bl-lg  rounded-full">
       NEW
     </span>
-    <span className="text-2xl">🛎️</span>
+    <span className="text-2xl">🛎️ </span>
     <p className="mt-1 font-medium">Services</p>
   </div>
 </motion.div>
@@ -92,13 +96,13 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{
-            width: scrolled ? "30%" : "70%",
-            padding: scrolled ? "0.3rem" : "0.8rem",
+            width: scrolled ? "30%" : "60%",
+            padding: scrolled ? "0.3rem" : "0.6rem",
             opacity: 1,
             y: scrolled ? -60 : -15,
           }}
           transition={{ duration: 0.4 }}
-          className="bg-white rounded-full shadow-md flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm md:text-base px-3 sm:px-6"
+          className="  bg-white rounded-full shadow-lg shadow-gray-400 flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm md:text-base px-3 sm:px-6"
         >
           {scrolled ? (
             <>
@@ -115,7 +119,7 @@ export default function Navbar() {
               >
                 Add guests
               </p>
-              <button className="bg-pink-500 text-white p-2 sm:p-3 rounded-full">
+              <button className="bg-red-500  text-white p-2 sm:p-3 rounded-full">
                 🔍
               </button>
             </>
@@ -141,7 +145,7 @@ export default function Navbar() {
                 <p className="text-xs font-bold">Who</p>
                 <p className="text-gray-500">Add guests</p>
               </div>
-              <button className="bg-pink-500 text-white p-2 sm:p-3 rounded-full">
+              <button className="bg-red-500 text-white p-2 sm:p-3 rounded-full">
                 🔍
               </button>
             </>

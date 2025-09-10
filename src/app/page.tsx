@@ -1,9 +1,9 @@
 
 import Image from "next/image";
-import Navbar from "./components/Navbar";
-import Propertylist from "./components/Propertylist";
-import Footer from "./components/Footer";
-import TabsSection from "./components/TabsSection";
+import Navbar from "./client-components/Navbar";
+import Propertylist from "./server-component/Propertylist";
+import Footer from "./client-components/Footer";
+import TabsSection from "./client-components/TabsSection";
 
 export default function Home() {
 
