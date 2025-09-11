@@ -5,6 +5,8 @@ import "react-day-picker/dist/style.css";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import TripDurationSelector from "./TripDurationSelector";
+import StayDuration from "./StayDuration";
 
 export default function CalendarModal({
   open,
@@ -30,10 +32,10 @@ export default function CalendarModal({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -30 }}
       transition={{ duration: 0.3 }}
-      className="absolute top-24 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-3xl p-6 z-50 w-[90%] max-w-4xl"
+      className="mt-24 absolute top-24 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-3xl p-6 z-50 w-[90%] max-w-4xl"
     >
   
-      <div className="flex justify-center mb-6 bg-gray-100 rounded-full p-1 w-fit mx-auto">
+      <div className="flex justify-center mb-6 bg-gray-200 rounded-full p-1 w-fit mx-auto">
         {["Dates", "Months", "Flexible"].map((tab) => (
           <button
             key={tab}
@@ -41,7 +43,7 @@ export default function CalendarModal({
             className={`px-6 py-2 rounded-full text-sm font-medium transition ${
               activeTab === tab.toLowerCase()
                 ? "bg-white text-black"
-                : "text-gray-600 hover:bg-gray-200"
+                : "text-black hover:bg-gray-200"
             }`}
           >
             {tab}
@@ -74,27 +76,33 @@ export default function CalendarModal({
 
       
       {activeTab === "months" && (
-        <div className="text-center text-gray-500 p-10">📅 Months view coming soon...</div>
+        <TripDurationSelector/>
       )}
       {activeTab === "flexible" && (
-        <div className="text-center text-gray-500 p-10">✨ Flexible dates feature coming soon...</div>
+        <StayDuration/>
       )}
 
 
-<div className="flex flex-wrap gap-3 mt-6 ml-10">
-        {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days", "± 14 days"].map(
-          (label, i) => (
-            <button
-              key={i}
-              className={`px-4 py-2 rounded-full border text-sm font-medium ${
-                i === 0 ? "border-black text-gray-700" : "border-gray-300 text-gray-700"
-              }`}
-            >
-              {label}
-            </button>
-          )
-        )}
-      </div>
+
+{
+  activeTab === "dates" && (
+    <div className="flex flex-wrap gap-3 mt-6 ml-10">
+    {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days", "± 14 days"].map(
+      (label, i) => (
+        <button
+          key={i}
+          className={`px-4 py-2 rounded-full border text-sm font-medium ${
+            i === 0 ? "border-black text-gray-700" : "border-gray-300 text-gray-700"
+          }`}
+        >
+          {label}
+        </button>
+      )
+    )}
+  </div>
+      )
+}
+
 
 
   
