@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import logo from "../../../public/assets/logo.jpg";
 import CalendarModal from "./CalendarModal";
+import WhereModal from "../Modals/WhereModal";
+import WhoModal from "../Modals/WhoModal";
 
 
 
@@ -13,9 +15,15 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
 
+  const [step, setStep] = useState<"where" | "checkin" | "checkout" | "who" | null>(null);
+  const whereRef = useRef<HTMLDivElement>(null);
+  const whoRef = useRef<HTMLDivElement>(null);
+
+
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -126,7 +134,22 @@ export default function Navbar() {
           ) : (
             <>
 
-<div className="px-2 sm:px-4 border-r"> <p className="text-xs font-bold">Where</p> <p className="text-gray-500">Search destinations</p> </div>
+<div
+  ref={whereRef}
+  onClick={() => setStep(step === "where" ? null : "where")} 
+  className="px-2 sm:px-4 border-r cursor-pointer"
+>
+  <p className="text-xs font-bold">Where</p>
+  <p className="text-gray-500">Search destinations</p>
+</div>
+
+
+<WhereModal
+  open={step === "where"}
+  anchorRef={whereRef}
+  onClose={() => setStep(null)}
+/>
+
               <div
                 className="px-2 sm:px-4 border-r cursor-pointer"
                 onClick={() => setCalendarOpen(true)}
@@ -141,10 +164,24 @@ export default function Navbar() {
                 <p className="text-xs font-bold">Check out</p>
                 <p className="text-gray-500">Add dates</p>
               </div>
-              <div className="px-2 sm:px-4">
-                <p className="text-xs font-bold">Who</p>
-                <p className="text-gray-500">Add guests</p>
-              </div>
+              
+
+              <div
+  ref={whoRef}
+  onClick={() => setStep(step === "who" ? null : "who")}
+  className="px-2 sm:px-4 cursor-pointer"
+>
+  <p className="text-xs font-bold">Who</p>
+  <p className="text-gray-500">Add guests</p>
+</div>
+
+
+<WhoModal
+  open={step === "who"}
+  anchorRef={whoRef}
+  onClose={() => setStep(null)}
+/>
+
               <button className="bg-red-500 text-white p-2 sm:p-3 rounded-full">
                 🔍
               </button>
@@ -152,6 +189,9 @@ export default function Navbar() {
           )}
         </motion.div>
       </motion.nav>
+
+
+      
 
       
       
