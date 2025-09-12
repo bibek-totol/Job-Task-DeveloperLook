@@ -3,15 +3,9 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Property } from "../type";
 
-interface Property {
-  id: number;
-  title: string;
-  price: string;
-  rating: string;
-  img: string;
-  badge?: string;
-}
+
 
 interface Props {
   title: string;

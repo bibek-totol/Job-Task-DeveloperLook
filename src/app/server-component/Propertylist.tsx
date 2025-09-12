@@ -1,26 +1,45 @@
 
-import properties from "../../../public/api.json";
+import { getData } from "../apiData/data";
 import PropertyCarousel from "../client-components/PropertyCarousel";
+import { Property } from "../type";
 
 
-export default function Propertylist() {
+export default async function Propertylist() {
+  const properties = await getData();
+
+  const filteredsimilar = properties.filter((property:Property) => {
+     return property.category === "similar";
+  })
+
+  const filteredmississauga = properties.filter((property:Property) => {
+    return property.category === "mississauga";
+  })
+
+  const filteredrogersCentre = properties.filter((property:Property) => {
+    return property.category === "rogersCentre";
+  })
+
+  const filteredbrampton = properties.filter((property:Property) => {
+    return property.category === "brampton";
+  })
+  
   return (
     <div className="px-6 py-8 mt-52 bg-white text-black space-y-10">
       <PropertyCarousel
         title="Available for similar dates"
-        items={properties.similar}
+        items={filteredsimilar}
       />
       <PropertyCarousel
         title="Stay in Mississauga"
-        items={properties.mississauga}
+        items={filteredmississauga}
       />
       <PropertyCarousel
         title="Stay near Rogers Centre"
-        items={properties.rogersCentre}
+        items={filteredrogersCentre}
       />
       <PropertyCarousel
         title="Popular Homes in Brampton"
-        items={properties.brampton}
+        items={filteredbrampton}
       />
     </div>
   );
