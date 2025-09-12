@@ -110,7 +110,7 @@ export default function Navbar() {
             y: scrolled ? -60 : -15,
           }}
           transition={{ duration: 0.4 }}
-          className="  bg-white rounded-full shadow-lg shadow-gray-400 flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm md:text-base px-3 sm:px-6"
+          className="border border-gray-300  bg-white rounded-full shadow-md shadow-gray-400 flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm md:text-base px-3 sm:px-6"
         >
           {scrolled ? (
             <>

@@ -1,4 +1,3 @@
-
 import { getData } from "../apiData/data";
 import PropertyCarousel from "../client-components/PropertyCarousel";
 import { Property } from "../type";
@@ -6,40 +5,27 @@ import { Property } from "../type";
 
 export default async function Propertylist() {
   const properties = await getData();
+  console.log(properties);
 
-  const filteredsimilar = properties.filter((property:Property) => {
-     return property.category === "similar";
-  })
-
-  const filteredmississauga = properties.filter((property:Property) => {
-    return property.category === "mississauga";
-  })
-
-  const filteredrogersCentre = properties.filter((property:Property) => {
-    return property.category === "rogersCentre";
-  })
-
-  const filteredbrampton = properties.filter((property:Property) => {
-    return property.category === "brampton";
-  })
+  
   
   return (
     <div className="px-6 py-8 mt-52 bg-white text-black space-y-10">
       <PropertyCarousel
         title="Available for similar dates"
-        items={filteredsimilar}
+        category="similar"
       />
       <PropertyCarousel
         title="Stay in Mississauga"
-        items={filteredmississauga}
+        category="mississauga"
       />
       <PropertyCarousel
         title="Stay near Rogers Centre"
-        items={filteredrogersCentre}
+        category="rogersCentre"
       />
       <PropertyCarousel
         title="Popular Homes in Brampton"
-        items={filteredbrampton}
+        category="brampton"
       />
     </div>
   );
