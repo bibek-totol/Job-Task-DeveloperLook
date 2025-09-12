@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 interface WhoModalProps {
   open: boolean;
-  anchorRef: React.RefObject<HTMLDivElement>;
+  anchorRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
 }
 

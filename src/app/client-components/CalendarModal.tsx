@@ -3,7 +3,7 @@
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DateRange } from "react-day-picker";
 import TripDurationSelector from "./TripDurationSelector";
 import StayDuration from "./StayDuration";
@@ -11,18 +11,26 @@ import StayDuration from "./StayDuration";
 export default function CalendarModal({
   open,
   onClose,
+  step,
+  setStep,
 }: {
   open: boolean;
   onClose: () => void;
+  step: "checkin" | "checkout" | null;
+  setStep: (step: "checkin" | "checkout" | null) => void;
 }) {
-  const [range, setRange] = useState<DateRange>({
-    from: new Date(),
-    to: new Date(),
-  });
+  const [range, setRange] = useState<DateRange>();
 
   const [activeTab, setActiveTab] = useState<"dates" | "months" | "flexible">(
     "dates"
   );
+
+  // Auto-switch to checkout once checkin date is picked
+  useEffect(() => {
+    if (range?.from && !range?.to && step === "checkin") {
+      setStep("checkout");
+    }
+  }, [range, step, setStep]);
 
   if (!open) return null;
 
@@ -34,7 +42,7 @@ export default function CalendarModal({
       transition={{ duration: 0.3 }}
       className="mt-24 absolute top-24 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-3xl p-6 z-50 w-[90%] max-w-4xl"
     >
-  
+      {/* Tabs */}
       <div className="flex justify-center mb-6 bg-gray-200 rounded-full p-1 w-fit mx-auto">
         {["Dates", "Months", "Flexible"].map((tab) => (
           <button
@@ -51,7 +59,7 @@ export default function CalendarModal({
         ))}
       </div>
 
-      
+      {/* Dates tab */}
       {activeTab === "dates" && (
         <DayPicker
           mode="range"
@@ -60,52 +68,48 @@ export default function CalendarModal({
           onSelect={setRange}
           pagedNavigation
           required
-          className="rounded-md p-2 ml-20 bg-white "
+          className="rounded-md p-2 ml-20 bg-white"
           classNames={{
-            months: "flex  gap-20",
+            months: "flex gap-20",
             month: "text-black text-center",
             caption: "text-lg font-semibold mb-4",
-            day: "text-black w-10 h-10  hover:bg-gray-200 transition",
-            selected:
-              "bg-black text-black  w-10 h-10 ",
-            range_middle:
-              "bg-gray-200 text-black w-10 h-10 ",
+            day: "text-black w-10 h-10 hover:bg-gray-200 transition",
+            selected: "bg-black text-white w-10 h-10 rounded-full",
+            range_middle: "bg-gray-200 text-black w-10 h-10",
           }}
         />
       )}
 
-      
-      {activeTab === "months" && (
-        <TripDurationSelector/>
+      {/* Months tab */}
+      {activeTab === "months" && <TripDurationSelector />}
+      {activeTab === "flexible" && <StayDuration />}
+
+      {/* Flex options */}
+      {activeTab === "dates" && (
+        <div className="flex flex-wrap gap-3 mt-6 ml-10">
+          {[
+            "Exact dates",
+            "± 1 day",
+            "± 2 days",
+            "± 3 days",
+            "± 7 days",
+            "± 14 days",
+          ].map((label, i) => (
+            <button
+              key={i}
+              className={`px-4 py-2 rounded-full border text-sm font-medium ${
+                i === 0
+                  ? "border-black text-gray-700"
+                  : "border-gray-300 text-gray-700"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       )}
-      {activeTab === "flexible" && (
-        <StayDuration/>
-      )}
 
-
-
-{
-  activeTab === "dates" && (
-    <div className="flex flex-wrap gap-3 mt-6 ml-10">
-    {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days", "± 14 days"].map(
-      (label, i) => (
-        <button
-          key={i}
-          className={`px-4 py-2 rounded-full border text-sm font-medium ${
-            i === 0 ? "border-black text-gray-700" : "border-gray-300 text-gray-700"
-          }`}
-        >
-          {label}
-        </button>
-      )
-    )}
-  </div>
-      )
-}
-
-
-
-  
+      {/* Done button */}
       <div className="flex justify-end mt-6">
         <button
           onClick={onClose}

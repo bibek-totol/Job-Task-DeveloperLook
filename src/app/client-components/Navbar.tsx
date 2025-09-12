@@ -101,7 +101,7 @@ export default function Navbar() {
 
 
         
-        <motion.div
+<motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{
             width: scrolled ? "30%" : "60%",
@@ -110,81 +110,133 @@ export default function Navbar() {
             y: scrolled ? -60 : -15,
           }}
           transition={{ duration: 0.4 }}
-          className="border border-gray-300  bg-white rounded-full shadow-md shadow-gray-400 flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm md:text-base px-3 sm:px-6"
+          className="border border-gray-300 bg-white rounded-full shadow-md shadow-gray-400 flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm md:text-base px-3 sm:px-6"
         >
           {scrolled ? (
             <>
               <p className="px-2 sm:px-4 border-r">Anywhere</p>
               <p
                 className="px-2 sm:px-4 border-r cursor-pointer"
-                onClick={() => setCalendarOpen(true)}
+                onClick={() => {
+                  setStep("checkin");
+                  setCalendarOpen(true);
+                }}
               >
                 Any week
               </p>
               <p
                 className="px-2 sm:px-4 cursor-pointer"
-                onClick={() => setCalendarOpen(true)}
+                onClick={() => {
+                  setStep("who");
+                }}
               >
                 Add guests
               </p>
-              <button className="bg-red-500  text-white p-2 sm:p-3 rounded-full">
+              <button className="bg-red-500 text-white p-2 sm:p-3 rounded-full">
                 🔍
               </button>
             </>
           ) : (
             <>
-
-<div
-  ref={whereRef}
-  onClick={() => setStep(step === "where" ? null : "where")} 
-  className="px-2 sm:px-4 border-r cursor-pointer"
->
-  <p className="text-xs font-bold">Where</p>
-  <p className="text-gray-500">Search destinations</p>
-</div>
-
-
-<WhereModal
-  open={step === "where"}
-  anchorRef={whereRef}
-  onClose={() => setStep(null)}
-/>
-
+              {/* Where */}
               <div
-                className="px-2 sm:px-4 border-r cursor-pointer"
-                onClick={() => setCalendarOpen(true)}
+                ref={whereRef}
+                onClick={() => setStep(step === "where" ? null : "where")}
+                className={`px-2 sm:px-4 border-r cursor-pointer ${
+                  step === "where"
+                    ? "bg-cyan-500 px-3 py-2 sm:px-6 rounded-full"
+                    : "hover:bg-gray-100 px-3 py-2 sm:px-6 rounded-full"
+                }`}
+              >
+                <p className="text-xs font-bold">Where</p>
+                <p className="text-gray-500">Search destinations</p>
+              </div>
+
+              <WhereModal
+                open={step === "where"}
+                anchorRef={whereRef}
+                onClose={() => setStep(null)}
+              />
+
+              {/* Check in */}
+              <div
+                onClick={() => {
+                  setStep("checkin");
+                  setCalendarOpen(true);
+                }}
+                className={`px-2 sm:px-4 border-r cursor-pointer ${
+                  step === "checkin"
+                    ? "bg-cyan-500 px-3 py-2 sm:px-6 rounded-full"
+                    : "hover:bg-gray-100 px-3 py-2 sm:px-6 rounded-full"
+                }`}
               >
                 <p className="text-xs font-bold">Check in</p>
                 <p className="text-gray-500">Add dates</p>
               </div>
+
+              {/* Check out */}
               <div
-                className="px-2 sm:px-4 border-r cursor-pointer"
-                onClick={() => setCalendarOpen(true)}
+                onClick={() => {
+                  setStep("checkout");
+                  setCalendarOpen(true);
+                }}
+                className={`px-2 sm:px-4 border-r cursor-pointer ${
+                  step === "checkout"
+                    ? "bg-cyan-500 px-3 py-2 sm:px-6 rounded-full"
+                    : "hover:bg-gray-100 px-3 py-2 sm:px-6 rounded-full"
+                }`}
               >
                 <p className="text-xs font-bold">Check out</p>
                 <p className="text-gray-500">Add dates</p>
               </div>
-              
 
+              {/* Who */}
               <div
-  ref={whoRef}
-  onClick={() => setStep(step === "who" ? null : "who")}
-  className="px-2 sm:px-4 cursor-pointer"
+                ref={whoRef}
+                onClick={() => setStep(step === "who" ? null : "who")}
+                className={`px-2 sm:px-4 cursor-pointer ${
+                  step === "who"
+                    ? "bg-cyan-500 px-3 py-2 sm:px-6 rounded-full"
+                    : "hover:bg-gray-100 px-3 py-2 sm:px-6 rounded-full"
+                }`}
+              >
+                <p className="text-xs font-bold">Who</p>
+                <p className="text-gray-500">Add guests</p>
+              </div>
+
+              <WhoModal
+                open={step === "who"}
+                anchorRef={whoRef}
+                onClose={() => setStep(null)}
+              />
+
+  
+<motion.button
+className="bg-red-500 text-white  rounded-full"
+
+animate={{
+  width: step === "where" || step === "who" || step === "checkout" || step === "checkin" ? "20%" : "auto",
+  padding: step === "where" || step === "who" || step === "checkout" || step === "checkin" ? "15px" : "10px",
+
+ 
+}}
+transition={{ duration: 0.4,type:"tween" }}
+
 >
-  <p className="text-xs font-bold">Who</p>
-  <p className="text-gray-500">Add guests</p>
-</div>
+{step === "where" || step === "who" || step === "checkout" || step === "checkin" ? (
+  
+    <span>Search  🔍</span>
 
+) : (
+  <span>
+    🔍
+  </span>
+)}
 
-<WhoModal
-  open={step === "who"}
-  anchorRef={whoRef}
-  onClose={() => setStep(null)}
-/>
-
-              <button className="bg-red-500 text-white p-2 sm:p-3 rounded-full">
-                🔍
-              </button>
+</motion.button>
+            
+            
+              
             </>
           )}
         </motion.div>
@@ -195,7 +247,12 @@ export default function Navbar() {
 
       
       
-      <CalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} />
+      <CalendarModal
+        open={calendarOpen}
+        onClose={() => setCalendarOpen(false)}
+        step={step === "checkin" || step === "checkout" ? step : null} 
+        setStep={setStep}
+      />
     
     </>
   );

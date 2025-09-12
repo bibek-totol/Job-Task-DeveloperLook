@@ -62,7 +62,7 @@ export default function PropertyCarousel({ title, category }: Props) {
       <div className="flex items-center justify-between mb-4 px-14">
         
         {loading ? (
-          <div className="h-6 w-48 bg-gray-200 rounded-md animate-pulse" />
+          <div className="h-6 w-40 bg-gray-200 rounded-md animate-pulse" />
         ) : (
           <h2 className="text-xl font-semibold">{title}</h2>
         )}
