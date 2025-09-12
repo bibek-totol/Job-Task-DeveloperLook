@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import useClickOutside from "../hook/useClickOutside";
 
 interface WhoModalProps {
   open: boolean;
@@ -18,26 +19,7 @@ export default function WhoModal({ open, anchorRef, onClose }: WhoModalProps) {
   });
 
   
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        anchorRef.current &&
-        !anchorRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    }
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open, anchorRef, onClose]);
-
-  if (!open || !anchorRef.current) return null;
-
-  const rect = anchorRef.current.getBoundingClientRect();
+  useClickOutside(anchorRef, onClose, open);
 
   const updateCount = (key: keyof typeof guests, delta: number) => {
     setGuests((prev) => ({
@@ -46,14 +28,16 @@ export default function WhoModal({ open, anchorRef, onClose }: WhoModalProps) {
     }));
   };
 
+  
+  if (!open || !anchorRef.current) return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.2 }}
-      
-      className="absolute top-20 right-2 max-w-[300[x] z-80 bg-white shadow-lg rounded-2xl p-4"
+      className="absolute top-20 right-2 max-w-[300px] z-80 bg-white shadow-lg rounded-2xl p-4"
     >
       {[
         { key: "adults", label: "Adults", desc: "Ages 13 or above" },

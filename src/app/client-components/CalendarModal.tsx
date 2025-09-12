@@ -1,34 +1,22 @@
 "use client";
 
-import { DayPicker } from "react-day-picker";
+import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { DateRange } from "react-day-picker";
 import TripDurationSelector from "./TripDurationSelector";
 import StayDuration from "./StayDuration";
+import { Props } from "../type";
 
-export default function CalendarModal({
-  open,
-  onClose,
-  step,
-  setStep,
-}: {
-  open: boolean;
-  onClose: () => void;
-  step: "checkin" | "checkout" | null;
-  setStep: (step: "checkin" | "checkout" | null) => void;
-}) {
-  const [range, setRange] = useState<DateRange>();
-
+export default function CalendarModal({ open, onClose, step, setStep }: Props) {
+  const [range, setRange] = useState<DateRange | undefined>();
   const [activeTab, setActiveTab] = useState<"dates" | "months" | "flexible">(
     "dates"
   );
 
-  // Auto-switch to checkout once checkin date is picked
   useEffect(() => {
     if (range?.from && !range?.to && step === "checkin") {
-      setStep("checkout");
+      setTimeout(() => setStep("checkout"), 300);
     }
   }, [range, step, setStep]);
 
@@ -42,7 +30,7 @@ export default function CalendarModal({
       transition={{ duration: 0.3 }}
       className="mt-24 absolute top-24 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-3xl p-6 z-50 w-[90%] max-w-4xl"
     >
-      {/* Tabs */}
+     
       <div className="flex justify-center mb-6 bg-gray-200 rounded-full p-1 w-fit mx-auto">
         {["Dates", "Months", "Flexible"].map((tab) => (
           <button
@@ -59,33 +47,61 @@ export default function CalendarModal({
         ))}
       </div>
 
-      {/* Dates tab */}
+      
       {activeTab === "dates" && (
-        <DayPicker
-          mode="range"
-          numberOfMonths={2}
-          selected={range}
-          onSelect={setRange}
-          pagedNavigation
-          required
-          className="rounded-md p-2 ml-20 bg-white"
-          classNames={{
-            months: "flex gap-20",
-            month: "text-black text-center",
-            caption: "text-lg font-semibold mb-4",
-            day: "text-black w-10 h-10 hover:bg-gray-200 transition",
-            selected: "bg-black text-white w-10 h-10 rounded-full",
-            range_middle: "bg-gray-200 text-black w-10 h-10",
-          }}
-        />
+        <div className="overflow-hidden relative">
+          <AnimatePresence mode="wait">
+            {(step === "checkin" || step === "checkout") && (
+              <motion.div
+                key={step}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <DayPicker
+                  mode="range"
+                  numberOfMonths={2}
+                  selected={range}
+                  onSelect={(selectedRange) => {
+                    setRange(selectedRange);
+                
+                  
+                    if (selectedRange?.from ) {
+                      setStep("checkout");
+                    }
+                
+                    
+                  }}
+                  pagedNavigation
+                  required
+                  className="rounded-md p-2 ml-20 bg-white"
+                  classNames={{
+                    months: "flex gap-20",
+                    day: "text-black w-10 h-10 hover:bg-gray-200 transition",
+                    selected:
+                      "bg-black text-black w-10 h-10 rounded-full", // both ends
+                    range_start:
+                      "bg-black text-white w-10 h-10 rounded-full", // check-in
+                    range_end:
+                      "bg-black text-white w-10 h-10 rounded-full", // checkout
+                    range_middle: "bg-gray-200 text-black w-10 h-10", // in between
+                  }}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       )}
 
-      {/* Months tab */}
+      {/* Months Tab */}
       {activeTab === "months" && <TripDurationSelector />}
+
+      {/* Flexible Tab */}
       {activeTab === "flexible" && <StayDuration />}
 
-      {/* Flex options */}
-      {activeTab === "dates" && (
+      
+      {/* {activeTab === "dates" && (
         <div className="flex flex-wrap gap-3 mt-6 ml-10">
           {[
             "Exact dates",
@@ -107,16 +123,21 @@ export default function CalendarModal({
             </button>
           ))}
         </div>
-      )}
+      )} */}
 
-      {/* Done button */}
+    
       <div className="flex justify-end mt-6">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 bg-pink-500 text-white rounded-lg"
-        >
-          Done
-        </button>
+      <button
+    onClick={() => {
+      if (range?.from && range?.to) {
+        setStep("who");
+      }
+      onClose();
+    }}
+    className="px-4 py-2 bg-pink-500 text-white rounded-lg"
+  >
+    Done
+  </button>
       </div>
     </motion.div>
   );

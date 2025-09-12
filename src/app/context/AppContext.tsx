@@ -1,10 +1,14 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
+import { Property } from "../type";
+import { useEffect } from "react";
 
 type AppContextType = {
-  loading: boolean;
-  setLoading: (val: boolean) => void;
+  step: "where" | "checkin" | "checkout" | "who" | "clicked" | null;
+  setStep: (step: "where" | "checkin" | "checkout" | "who" | "clicked" | null) => void;
+  items: Property[]
+
 };
 
 
@@ -15,10 +19,26 @@ type AppProviderProps = {
 };
 
 export function AppProvider({ children }: AppProviderProps) {
-  const [loading, setLoading] = useState<boolean>(false);
+    const [step, setStep] = useState<"where" | "checkin" | "checkout" | "who" | "clicked" | null>(null);
+
+
+    const [items, setItems] = useState<Property[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api`);
+        const data = await res.json();
+        setItems(data);
+      } catch (error) {
+        console.error("Failed to fetch properties:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
-    <AppContext.Provider value={{ loading, setLoading }}>
+    <AppContext.Provider value={{ step, setStep, items }}>
       {children}
     </AppContext.Provider>
   );

@@ -1,46 +1,34 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useRef } from "react";
+import useClickOutside from "../hook/useClickOutside";
 
 interface WhereModalProps {
-    open: boolean;
-    anchorRef: React.RefObject<HTMLDivElement | null>;
-    onClose: () => void;
+  open: boolean;
+  anchorRef: React.RefObject<HTMLDivElement | null>;
+  onClose: () => void;
+  setStep: (step: "where" | "checkin" | "checkout" | "who" | null) => void;
+  setCalendarOpen : (calendarOpen: boolean) => void;
+
 }
 
-export default function WhereModal({ open, anchorRef, onClose }: WhereModalProps) {
-    if (!open || !anchorRef.current) return null;
-
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        anchorRef.current &&
-        !anchorRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    }
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open, anchorRef, onClose]);
+export default function WhereModal({ open, anchorRef, onClose, setStep,setCalendarOpen }: WhereModalProps) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   
+  useClickOutside(modalRef, onClose, open);
 
+  if (!open || !anchorRef.current) return null; 
   return (
     <motion.div
+      ref={modalRef}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.2 }}
-      className="absolute top-20 left-2 max-w-[300[x] z-80 bg-white shadow-lg rounded-2xl p-4"
+      className="absolute top-20 left-2 max-w-[300px] z-80 bg-white shadow-lg rounded-2xl p-4"
     >
-      
       <div>
         <h3 className="text-sm font-semibold mb-2">Recent searches</h3>
         <div className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
@@ -52,10 +40,9 @@ export default function WhereModal({ open, anchorRef, onClose }: WhereModalProps
         </div>
       </div>
 
-
-      
       <div className="mt-4">
         <h3 className="text-sm font-semibold mb-2">Suggested destinations</h3>
+
         {[
           { icon: "📍", title: "Nearby", desc: "Find what’s around you" },
           { icon: "🏙️", title: "Toronto, Canada", desc: "For sights like CN Tower" },
@@ -65,6 +52,16 @@ export default function WhereModal({ open, anchorRef, onClose }: WhereModalProps
         ].map((item, i) => (
           <div
             key={i}
+            onClick={() => {
+              if (item.title === "Nearby") {
+                onClose();
+                setStep("checkin");
+                setCalendarOpen(true);
+                console.log("Nearby clicked ");
+                
+
+              }
+            }}
             className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
           >
             <span className="text-lg">{item.icon}</span>
