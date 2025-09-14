@@ -24,15 +24,14 @@ export default function PropertyCarousel({ title, category }: Props) {
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const baseUrl =typeof window !== "undefined" ? window.location.origin : "";
-    const res = await fetch(`${baseUrl}/api`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api`, {
+      });
       const data: Property[] = await res.json();
       setItems(data.filter((p) => p.category === category));
       setLoading(false);
     }
     fetchData();
   }, [category]);
-
   
   useEffect(() => {
     const updateLayout = () => {
