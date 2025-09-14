@@ -23,6 +23,9 @@ type AppContextType = {
     guests: Guests;
   }) => void;
 
+  recentSearches: string[];
+  addRecentSearch: (country: string) => void;
+
 };
 
 
@@ -54,6 +57,17 @@ export function AppProvider({ children }: AppProviderProps) {
 
     const [items, setItems] = useState<Property[]>([]);
 
+
+    const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  const addRecentSearch = (country: string) => {
+    setRecentSearches((prev) => {
+      const updated = [country, ...prev.filter((c) => c !== country)];
+      return updated.slice(0, 2); 
+    });
+  };
+
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -68,7 +82,7 @@ export function AppProvider({ children }: AppProviderProps) {
   }, []);
 
   return (
-    <AppContext.Provider value={{ step, setStep, items, activeTab, setActiveTab, searchfieldData, setSearchfieldData }}>
+    <AppContext.Provider value={{ step, setStep, items, activeTab, setActiveTab, searchfieldData, setSearchfieldData, recentSearches, addRecentSearch }}>
       {children}
     </AppContext.Provider>
   );

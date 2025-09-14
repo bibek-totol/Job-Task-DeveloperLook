@@ -195,9 +195,7 @@ export default function Navbar() {
               >
                 Add guests
               </p>
-              <button className="bg-red-500 text-white p-2 sm:p-3 rounded-full">
-                🔍
-              </button>
+             <ALertBoxCard/>
             </>
           ) : (
             <>
