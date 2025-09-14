@@ -57,7 +57,8 @@ export function AppProvider({ children }: AppProviderProps) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/api");
+        const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+      const res = await fetch(`${baseUrl}/api`);
         const data = await res.json();
         setItems(data);
       } catch (error) {
