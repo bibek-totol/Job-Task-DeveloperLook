@@ -1,4 +1,4 @@
-
+export const dynamic = "force-dynamic";
 import Navbar from "./client-components/Navbar";
 import Propertylist from "./server-component/Propertylist";
 import Footer from "./client-components/Footer";
