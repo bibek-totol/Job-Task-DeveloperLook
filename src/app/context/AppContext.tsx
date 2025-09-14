@@ -57,7 +57,7 @@ export function AppProvider({ children }: AppProviderProps) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api`);
+        const res = await fetch("/api");
         const data = await res.json();
         setItems(data);
       } catch (error) {
