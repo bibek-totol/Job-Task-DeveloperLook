@@ -23,3 +23,6 @@ export interface Property {
     infants: number;
     pets: number;
   };
+
+
+  export type Tab = "dates" | "months" | "flexible";

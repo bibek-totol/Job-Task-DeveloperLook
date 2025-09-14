@@ -6,14 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import TripDurationSelector from "./TripDurationSelector";
 import StayDuration from "./StayDuration";
-import { Props } from "../type";
+import { Props, Tab } from "../type";
 import { useAppContext } from "../context/AppContext";
 import useClickOutside from "../hook/useClickOutside";
 
 export default function CalendarModal({ open, onClose, step, setStep }: Props) {
   const [range, setRange] = useState<DateRange | undefined>();
   const { activeTab, setActiveTab, setSearchfieldData, searchfieldData } = useAppContext();
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
+  const isMobile = window.innerWidth < 768;
+
 
 
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -41,13 +42,13 @@ export default function CalendarModal({ open, onClose, step, setStep }: Props) {
       transition={{ duration: 0.3 }}
       className="mt-20 absolute top-24 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-3xl p-4 sm:p-6 z-50 w-[95%] max-w-4xl"
     >
-      {/* Tabs */}
+  
       <div className="flex flex-wrap justify-center mb-6 bg-gray-200 rounded-full p-1 w-fit mx-auto">
         {["Dates", "Months", "Flexible"].map((tab) => (
           <button
             key={tab}
             onClick={() => {
-              const newTab = tab.toLowerCase() as any;
+              const newTab = tab.toLowerCase() as Tab;
               setActiveTab(newTab);
               if (newTab === "months") setStep("when");
               if (newTab === "dates") setStep("checkin");

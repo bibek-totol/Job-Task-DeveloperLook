@@ -1,7 +1,5 @@
 import { getData } from "../apiData/data";
 import PropertyCarousel from "../client-components/PropertyCarousel";
-import { Property } from "../type";
-
 
 export default async function Propertylist() {
   const properties = await getData();
