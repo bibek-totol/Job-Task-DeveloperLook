@@ -1,0 +1,19 @@
+{
+    "navbar": {
+      "becomeHost": "হোস্ট হোন",
+      "homes": "বাড়ি",
+      "experiences": "অভিজ্ঞতা",
+      "services": "সেবা",
+      "anywhere": "যে কোনো জায়গা",
+      "anytime": "যে কোনো সময়",
+      "addGuests": "অতিথি যোগ করুন",
+      "where": "কোথায়",
+      "searchDestinations": "গন্তব্য খুঁজুন",
+      "checkin": "চেক ইন",
+      "checkout": "চেক আউট",
+      "addDates": "তারিখ যোগ করুন",
+      "when": "কবে",
+      "who": "কে"
+    }
+  }
+  

@@ -9,11 +9,13 @@ import WhereModal from "../Modals/WhereModal";
 import WhoModal from "../Modals/WhoModal";
 import { useAppContext } from "../context/AppContext";
 import ALertBoxCard from "./ALertBoxCard";
+import LanguageRegionDialog from "./LanguageRegionDialog";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
   const { step, setStep, activeTab, searchfieldData } = useAppContext();
+  const [open, setOpen] = useState(false);
 
   const whereRef = useRef<HTMLDivElement>(null);
   const whoRef = useRef<HTMLDivElement>(null);
@@ -87,9 +89,11 @@ export default function Navbar() {
             <p className="hidden sm:block text-xs sm:text-sm cursor-pointer">
               Become a host
             </p>
-            <button className="p-2 rounded-full hover:bg-gray-100 ml-38 md:ml-0">
+            <button onClick={() => setOpen(true)} className="p-2 rounded-full hover:bg-gray-100 ml-38 md:ml-0">
               🌍
             </button>
+
+            <LanguageRegionDialog open={open} setOpen={setOpen} />
             <button className="p-2 rounded-full hover:bg-gray-100">☰</button>
           </div>
         </div>
