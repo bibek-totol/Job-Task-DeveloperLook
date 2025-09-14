@@ -38,17 +38,23 @@ export default function TabsSection() {
   };
 
   return (
-    <div className="w-full  mx-auto px-6 py-10 bg-[#F7F7F7]">
-      <h2 className="text-2xl font-semibold mb-4 text-black">Inspiration for future getaways</h2>
+    <div className="w-full mx-auto px-6 py-10 bg-[#F7F7F7]">
+      <h2 className="text-2xl font-semibold mb-4 text-black">
+        Inspiration for future getaways
+      </h2>
+
       <Tab.Group>
-        <Tab.List className="flex space-x-6 ">
+     
+        <Tab.List className="flex space-x-6 border-b border-gray-200">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>
                 classNames(
-                  "py-2 px-1 text-sm font-medium border-b-2",
-                  selected ? "border-black text-black" : "border-transparent text-gray-500"
+                  "py-2 px-1 text-sm font-medium focus:outline-none",
+                  selected
+                    ? "border-b-2 border-black text-black"
+                    : "text-gray-500 hover:text-black hover:border-b-2 hover:border-gray-300"
                 )
               }
             >
@@ -56,10 +62,12 @@ export default function TabsSection() {
             </Tab>
           ))}
         </Tab.List>
+
+        
         <Tab.Panels className="mt-6">
           {Object.values(categories).map((items, idx) => (
             <Tab.Panel key={idx}>
-              <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 {items.map((item, i) => (
                   <div key={i}>
                     <p className="font-medium text-gray-900">{item.title}</p>

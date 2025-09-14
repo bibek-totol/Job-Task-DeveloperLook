@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CircularSlider from "@fseehawer/react-circular-slider";
+import { useAppContext } from "../context/AppContext";
 
 export default function TripDurationSelector() {
   const [months, setMonths] = useState(3);
+  const {searchfieldData, setSearchfieldData} = useAppContext();
 
-  const startDate = new Date(2025, 9, 1); // Oct 1, 2025
+  const startDate = new Date(2025, 9, 1); 
   const endDate = new Date(startDate);
   endDate.setMonth(endDate.getMonth() + months);
 
@@ -17,14 +19,24 @@ export default function TripDurationSelector() {
       year: "numeric",
     });
 
+
+    useEffect(() => {
+    
+      setSearchfieldData({
+        ...searchfieldData,
+        checkin: formatDate(startDate),
+        checkout: formatDate(endDate),
+      });
+    }, [months]);
+
   return (
     <div className="flex flex-col items-center bg-white">
-      <h2 className="mt-8 text-lg font-semibold text-gray-800">
+      <h2 className=" text-lg font-semibold text-gray-800">
         When’s your trip?
       </h2>
 
       
-      <div className="relative w-72 h-72 mt-6 flex items-center justify-center">
+      <div className="relative w-72 h-72 mt-2 flex items-center justify-center">
         <div className="absolute w-[280px] h-[280px] rounded-full  shadow-lg  shadow-gray-400"
         
         />

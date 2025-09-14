@@ -1,13 +1,27 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Property } from "../type";
+import { Guests, Property } from "../type";
 import { useEffect } from "react";
 
 type AppContextType = {
-  step: "where" | "checkin" | "checkout" | "who" | "clicked" | null;
-  setStep: (step: "where" | "checkin" | "checkout" | "who" | "clicked" | null) => void;
-  items: Property[]
+  step: "where" | "checkin" | "checkout" | "who" | "clicked" | "when" | null;
+  setStep: (step: "where" | "checkin" | "checkout" | "who" | "clicked" |  "when" | null) => void;
+  items: Property[];
+  activeTab: "dates" | "months" | "flexible";
+  setActiveTab: (tab: "dates" | "months" | "flexible") => void;
+  searchfieldData: {
+    location: string;
+    checkin: string;
+    checkout: string;
+    guests: Guests;
+  };
+  setSearchfieldData: (data: {
+    location: string;
+    checkin: string;
+    checkout: string;
+    guests: Guests;
+  }) => void;
 
 };
 
@@ -19,8 +33,24 @@ type AppProviderProps = {
 };
 
 export function AppProvider({ children }: AppProviderProps) {
-    const [step, setStep] = useState<"where" | "checkin" | "checkout" | "who" | "clicked" | null>(null);
+    const [step, setStep] = useState<"where" | "checkin" | "checkout" | "who" | "clicked" | "when" | null>(null);
+    const [activeTab, setActiveTab] = useState<"dates" | "months" | "flexible">(
+        "dates"
+      );
 
+
+      const [searchfieldData, setSearchfieldData] = useState<{
+        location: string;
+        checkin: string;
+        checkout: string;
+        guests: Guests;
+      }>({ location: "", checkin: "", checkout: "", guests: {
+        adults: 0,
+        children: 0,
+        infants: 0,
+        pets: 0
+      } });
+      
 
     const [items, setItems] = useState<Property[]>([]);
 
@@ -38,7 +68,7 @@ export function AppProvider({ children }: AppProviderProps) {
   }, []);
 
   return (
-    <AppContext.Provider value={{ step, setStep, items }}>
+    <AppContext.Provider value={{ step, setStep, items, activeTab, setActiveTab, searchfieldData, setSearchfieldData }}>
       {children}
     </AppContext.Provider>
   );

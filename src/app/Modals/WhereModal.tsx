@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import useClickOutside from "../hook/useClickOutside";
+import { useAppContext } from "../context/AppContext";
 
 interface WhereModalProps {
   open: boolean;
@@ -15,6 +16,13 @@ interface WhereModalProps {
 
 export default function WhereModal({ open, anchorRef, onClose, setStep,setCalendarOpen }: WhereModalProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const {items, setSearchfieldData,searchfieldData} = useAppContext();
+  const uniqueByCountry = items.filter(
+    (item, index, self) =>
+      index === self.findIndex((t) => t.country === item.country)
+  );
+
+
 
   
   useClickOutside(modalRef, onClose, open);
@@ -43,31 +51,26 @@ export default function WhereModal({ open, anchorRef, onClose, setStep,setCalend
       <div className="mt-4">
         <h3 className="text-sm font-semibold mb-2">Suggested destinations</h3>
 
-        {[
-          { icon: "📍", title: "Nearby", desc: "Find what’s around you" },
-          { icon: "🏙️", title: "Toronto, Canada", desc: "For sights like CN Tower" },
-          { icon: "🌃", title: "Bangkok, Thailand", desc: "For its bustling nightlife" },
-          { icon: "🏛️", title: "London, United Kingdom", desc: "For its stunning architecture" },
-          { icon: "🍽️", title: "New York, NY", desc: "For its top-notch dining" },
-        ].map((item, i) => (
+        {uniqueByCountry.map((item, i) => (
           <div
             key={i}
             onClick={() => {
-              if (item.title === "Nearby") {
+             
                 onClose();
                 setStep("checkin");
                 setCalendarOpen(true);
-                console.log("Nearby clicked ");
-                
-
-              }
+                setSearchfieldData({
+                  ...searchfieldData,   
+                  location: item.country
+                });
+            
             }}
-            className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+            className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded-lg cursor-pointer"
           >
-            <span className="text-lg">{item.icon}</span>
+            <span className="text-lg">{i+1}{"."}</span>
             <div>
-              <p className="font-medium">{item.title}</p>
-              <p className="text-xs text-gray-500">{item.desc}</p>
+              <p className="font-medium">{item.country}</p>
+              {/* <p className="text-xs text-gray-500">{item.ti}</p> */}
             </div>
           </div>
         ))}
